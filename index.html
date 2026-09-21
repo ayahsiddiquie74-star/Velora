@@ -34,7 +34,6 @@
   input, select { font-family: inherit; }
   ::selection { background: var(--primary); color: var(--background); }
 
-  /* LOGIN */
   #loginScreen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: radial-gradient(ellipse at top, hsl(225 30% 12%) 0%, var(--background) 60%); z-index: 100; padding: 20px; }
   .login-card { width: 100%; max-width: 420px; background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; padding: 40px; box-shadow: 0 24px 80px hsl(225 35% 3% / 0.6); }
   .login-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
@@ -55,17 +54,17 @@
   .btn-secondary:hover { background: hsl(225 18% 18%); }
   .login-actions .btn { flex: 1; }
 
-  /* APP */
   #app { display: none; min-height: 100vh; }
   #app.active { display: block; }
   .layout { display: flex; min-height: 100vh; }
 
-  /* SIDEBAR */
-  .sidebar { width: 248px; background: var(--sidebar); border-right: 1px solid var(--card-border); display: flex; flex-direction: column; padding: 28px 20px; position: fixed; top: 0; bottom: 0; left: 0; z-index: 20; }
+  .sidebar { width: 248px; background: var(--sidebar); border-right: 1px solid var(--card-border); display: flex; flex-direction: column; padding: 28px 20px; position: fixed; top: 0; bottom: 0; left: 0; z-index: 20; overflow-y: auto; }
   .brand { display: flex; align-items: center; gap: 10px; }
-  .brand-mark { width: 36px; height: 36px; border-radius: 9px; background: var(--primary-dim); border: 1px solid var(--primary-border); display: flex; align-items: center; justify-content: center; color: var(--primary); font-family: var(--font-display); font-weight: 700; font-size: 16px; position: relative; }
-  .brand-mark::after { content: ""; position: absolute; top: -2px; right: -2px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-  .brand-text { font-family: var(--font-display); font-size: 15px; font-weight: 700; letter-spacing: -0.02em; }
+  .brand-mark { width: 36px; height: 36px; border-radius: 9px; background: var(--primary-dim); border: 1px solid var(--primary-border); display: flex; align-items: center; justify-content: center; color: var(--primary); font-family: var(--font-display); font-weight: 700; font-size: 16px; position: relative; overflow: hidden; flex-shrink: 0; }
+  .brand-mark img { width: 100%; height: 100%; object-fit: cover; }
+  .brand-mark::after { content: ""; position: absolute; top: -2px; right: -2px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); z-index: 2; }
+  .brand-text { font-family: var(--font-display); font-size: 15px; font-weight: 700; letter-spacing: -0.02em; min-width: 0; }
+  .brand-text .shopname { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .brand-text span { display: block; font-family: var(--font-mono); font-size: 8px; font-weight: 400; letter-spacing: 0.22em; color: var(--muted); text-transform: uppercase; margin-top: 1px; }
   .forest-line { height: 1px; background: linear-gradient(90deg, var(--primary), var(--accent), transparent); opacity: 0.5; margin: 26px 0; }
   .nav-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; padding: 0 8px; }
@@ -86,13 +85,13 @@
   .ledger-bar div { height: 100%; width: 72%; background: var(--primary); border-radius: 2px; }
   .ledger-meta { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
   .shop-info { display: flex; align-items: center; gap: 10px; padding-top: 16px; margin-top: 16px; border-top: 1px solid var(--border); }
-  .shop-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--primary-dim); border: 1px solid var(--primary-border); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; color: var(--primary); font-size: 13px; }
-  .shop-name { font-size: 13px; font-weight: 600; }
+  .shop-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--primary-dim); border: 1px solid var(--primary-border); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; color: var(--primary); font-size: 13px; overflow: hidden; flex-shrink: 0; }
+  .shop-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .shop-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .shop-role { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 1px; }
   .signout { width: 100%; margin-top: 12px; padding: 8px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); border-radius: 8px; background: transparent; transition: all 0.15s; }
   .signout:hover { color: var(--foreground); border-color: var(--card-border); }
 
-  /* MAIN */
   .main { flex: 1; margin-left: 248px; min-height: 100vh; background-image: linear-gradient(hsl(225 17% 20% / 0.2) 1px, transparent 1px), linear-gradient(90deg, hsl(225 17% 20% / 0.2) 1px, transparent 1px); background-size: 32px 32px; }
   .main-inner { max-width: 1280px; margin: 0 auto; padding: 36px 40px 60px; }
   .page { display: none; }
@@ -105,7 +104,6 @@
   .head-action { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 10px; background: var(--primary); color: hsl(224 25% 7%); font-size: 13px; font-weight: 700; box-shadow: 0 8px 24px hsl(145 52% 43% / 0.18); transition: transform 0.15s; }
   .head-action:hover { transform: translateY(-1px); }
 
-  /* METRIC CARDS */
   .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-bottom: 14px; }
   .metric { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; box-shadow: inset 0 1px 0 hsl(38 28% 93% / 0.04); }
   .metric.accent { border-color: var(--primary-border); background: hsl(145 52% 43% / 0.06); }
@@ -127,7 +125,6 @@
   .metric-mini.warm .metric-mini-value { color: var(--accent); }
   .metric-mini-detail { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
-  /* PANELS */
   .panels { display: grid; grid-template-columns: 1.35fr 0.85fr; gap: 20px; }
   @media (max-width: 1024px) { .panels { grid-template-columns: 1fr; } }
   .panel { background: var(--card); border: 1px solid var(--border); border-radius: 16px; box-shadow: inset 0 1px 0 hsl(38 28% 93% / 0.04), 0 18px 50px hsl(225 35% 3% / 0.18); overflow: hidden; }
@@ -152,7 +149,6 @@
   .stock-item .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
   .stock-item .qty { font-family: var(--font-mono); font-size: 12px; color: var(--accent); }
 
-  /* TABLE */
   .data-table { width: 100%; border-collapse: collapse; }
   .data-table th { text-align: left; padding: 14px 22px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--border); }
   .data-table td { padding: 16px 22px; font-size: 13px; border-bottom: 1px solid var(--border); }
@@ -160,7 +156,6 @@
   .data-table tr:hover { background: hsl(225 18% 14% / 0.4); }
   .data-table .mono { font-family: var(--font-mono); font-size: 12px; }
 
-  /* PRODUCT GRID */
   .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
   .product-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; transition: all 0.2s; }
   .product-card:hover { border-color: var(--primary-border); transform: translateY(-2px); box-shadow: 0 12px 30px hsl(225 35% 3% / 0.3); }
@@ -180,7 +175,6 @@
   .search-box { width: 100%; padding: 12px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--foreground); font-size: 13px; outline: none; margin-bottom: 20px; transition: border-color 0.15s; }
   .search-box:focus { border-color: var(--primary); }
 
-  /* BILLING */
   .billing-layout { display: grid; grid-template-columns: 1fr 380px; gap: 20px; }
   @media (max-width: 1024px) { .billing-layout { grid-template-columns: 1fr; } }
   .billing-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
@@ -204,13 +198,31 @@
   .cart-form input:focus, .cart-form select:focus { border-color: var(--primary); }
   .cart-form select { width: auto; text-align: left; }
 
-  /* MODAL */
   .modal { position: fixed; inset: 0; background: hsl(224 25% 7% / 0.85); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
   .modal.active { display: flex; }
   .modal-box { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; padding: 28px; width: 100%; max-width: 440px; box-shadow: 0 24px 60px hsl(225 35% 3% / 0.6); }
   .modal-box h2 { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-bottom: 20px; letter-spacing: -0.02em; }
   .modal-actions { display: flex; gap: 10px; margin-top: 22px; }
   .modal-actions .btn { flex: 1; }
+
+  /* SETTINGS LOGO UPLOAD */
+  .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 900px) { .settings-grid { grid-template-columns: 1fr; } }
+  .settings-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+  .settings-card h3 { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.01em; }
+  .settings-card p.help { font-size: 12px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+  .logo-preview-wrap { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding: 16px; background: var(--background); border: 1px dashed var(--border); border-radius: 12px; }
+  .logo-preview { width: 72px; height: 72px; border-radius: 16px; background: var(--primary-dim); border: 1px solid var(--primary-border); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; color: var(--primary); font-size: 28px; overflow: hidden; flex-shrink: 0; }
+  .logo-preview img { width: 100%; height: 100%; object-fit: cover; }
+  .logo-preview-info { flex: 1; min-width: 0; }
+  .logo-preview-info .name { font-size: 14px; font-weight: 600; }
+  .logo-preview-info .hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .upload-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 10px; background: var(--primary); color: hsl(224 25% 7%); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.15s; border: none; }
+  .upload-btn:hover { filter: brightness(1.1); }
+  .upload-btn.secondary { background: var(--secondary); color: var(--foreground); border: 1px solid var(--border); }
+  .upload-btn.secondary:hover { background: hsl(225 18% 18%); filter: none; }
+  #logoFileInput { display: none; }
+  .settings-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
   @media (max-width: 900px) {
     .sidebar { display: none; }
@@ -250,8 +262,11 @@
   <div class="layout">
     <aside class="sidebar">
       <div class="brand">
-        <div class="brand-mark">V</div>
-        <div class="brand-text">Velora<span>Billing command</span></div>
+        <div class="brand-mark" id="brandMark">V</div>
+        <div class="brand-text">
+          <div class="shopname" id="brandShopName">Velora</div>
+          <span>Billing command</span>
+        </div>
       </div>
       <div class="forest-line"></div>
       <div class="nav-label">Command center</div>
@@ -498,12 +513,37 @@
             <div>
               <div class="eyebrow">Workspace / Control</div>
               <h1 class="page-title">Settings</h1>
-              <p class="page-desc">Manage your shop workspace and data.</p>
+              <p class="page-desc">Manage your shop workspace, branding, and data.</p>
             </div>
           </div>
-          <div class="panel" style="padding: 24px;">
-            <button class="btn btn-secondary" onclick="exportData()">Export data (JSON)</button>
-            <button class="btn btn-secondary" style="margin-left: 10px; color: var(--destructive); border-color: hsl(0 68% 54% / 0.3);" onclick="clearAll()">Reset workspace</button>
+          <div class="settings-grid">
+            <div class="settings-card">
+              <h3>Shop logo</h3>
+              <p class="help">Upload your shop's logo. It will appear in the sidebar and on your workspace. Recommended: square image, at least 256×256px.</p>
+              <div class="logo-preview-wrap">
+                <div class="logo-preview" id="logoPreview">V</div>
+                <div class="logo-preview-info">
+                  <div class="name" id="logoPreviewName">No logo uploaded</div>
+                  <div class="hint">PNG, JPG, or SVG. Max ~500KB recommended.</div>
+                </div>
+              </div>
+              <div class="settings-actions">
+                <button class="upload-btn" onclick="document.getElementById('logoFileInput').click()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Upload logo
+                </button>
+                <button class="upload-btn secondary" onclick="removeLogo()">Remove</button>
+                <input type="file" id="logoFileInput" accept="image/*" onchange="handleLogoUpload(event)">
+              </div>
+            </div>
+            <div class="settings-card">
+              <h3>Data</h3>
+              <p class="help">Backup or reset your shop's workspace. Backups are downloaded as a JSON file.</p>
+              <div class="settings-actions">
+                <button class="upload-btn secondary" onclick="exportData()">Export data</button>
+                <button class="upload-btn secondary" style="color: var(--destructive); border-color: hsl(0 68% 54% / 0.3);" onclick="clearAll()">Reset workspace</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -544,7 +584,7 @@
 </div>
 
 <script>
-let state = { shop: null, products: [], customers: [], bills: [], cart: [], billCounter: 1 };
+let state = { shop: null, logo: null, products: [], customers: [], bills: [], cart: [], billCounter: 1 };
 
 function shopKey(k) { return 'velora_' + k + '_' + state.shop; }
 function persist() {
@@ -553,6 +593,8 @@ function persist() {
   localStorage.setItem(shopKey('customers'), JSON.stringify(state.customers));
   localStorage.setItem(shopKey('bills'), JSON.stringify(state.bills));
   localStorage.setItem(shopKey('counter'), state.billCounter);
+  if (state.logo) localStorage.setItem(shopKey('logo'), state.logo);
+  else localStorage.removeItem(shopKey('logo'));
 }
 function loadShopData() {
   state.products = JSON.parse(localStorage.getItem(shopKey('products'))) || [
@@ -569,6 +611,7 @@ function loadShopData() {
   ];
   state.bills = JSON.parse(localStorage.getItem(shopKey('bills'))) || [];
   state.billCounter = parseInt(localStorage.getItem(shopKey('counter'))) || 1;
+  state.logo = localStorage.getItem(shopKey('logo')) || null;
   persist();
 }
 
@@ -604,11 +647,28 @@ function logout() {
 function enterApp() {
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('app').classList.add('active');
-  document.getElementById('sidebarShopName').textContent = state.shop;
-  document.getElementById('dashTitle').textContent = state.shop;
-  document.getElementById('shopAvatar').textContent = state.shop[0].toUpperCase();
   loadShopData();
+  applyBranding();
   renderAll();
+  renderSettings();
+}
+function applyBranding() {
+  const name = state.shop;
+  const initial = name[0].toUpperCase();
+  document.getElementById('sidebarShopName').textContent = name;
+  document.getElementById('brandShopName').textContent = name;
+  document.getElementById('dashTitle').textContent = name;
+  document.getElementById('shopAvatar').textContent = initial;
+
+  const brandMark = document.getElementById('brandMark');
+  const shopAvatar = document.getElementById('shopAvatar');
+  if (state.logo) {
+    brandMark.innerHTML = '<img src="' + state.logo + '" alt="logo">';
+    shopAvatar.innerHTML = '<img src="' + state.logo + '" alt="logo">';
+  } else {
+    brandMark.textContent = initial;
+    shopAvatar.textContent = initial;
+  }
 }
 
 function navigate(page) {
@@ -620,12 +680,49 @@ function navigate(page) {
   if (page === 'customers') renderCustomers();
   if (page === 'billing') renderBilling();
   if (page === 'reports') renderReports();
+  if (page === 'settings') renderSettings();
 }
 
 function fmt(n) { return '₹' + Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function renderAll() { renderDashboard(); renderProducts(); renderCustomers(); renderBilling(); renderReports(); renderSettings(); }
 
-function renderAll() { renderDashboard(); renderProducts(); renderCustomers(); renderBilling(); renderReports(); }
+/* --- SETTINGS / LOGO --- */
+function renderSettings() {
+  const preview = document.getElementById('logoPreview');
+  const nameEl = document.getElementById('logoPreviewName');
+  if (state.logo) {
+    preview.innerHTML = '<img src="' + state.logo + '" alt="logo">';
+    nameEl.textContent = 'Logo uploaded';
+  } else {
+    preview.textContent = state.shop ? state.shop[0].toUpperCase() : 'V';
+    nameEl.textContent = 'No logo uploaded';
+  }
+}
+function handleLogoUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) return alert('Please select an image file.');
+  if (file.size > 2 * 1024 * 1024) return alert('Image is too large. Please use an image under 2MB.');
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    state.logo = e.target.result;
+    persist();
+    applyBranding();
+    renderSettings();
+    alert('Logo updated!');
+  };
+  reader.readAsDataURL(file);
+}
+function removeLogo() {
+  if (!state.logo) return alert('No logo to remove.');
+  if (!confirm('Remove your shop logo?')) return;
+  state.logo = null;
+  persist();
+  applyBranding();
+  renderSettings();
+}
 
+/* --- DASHBOARD --- */
 function renderDashboard() {
   const revenue = state.bills.reduce((s, b) => s + b.total, 0);
   const dues = state.customers.reduce((s, c) => s + c.due, 0);
@@ -672,6 +769,7 @@ function renderDashboard() {
   }
 }
 
+/* --- PRODUCTS --- */
 function renderProducts() {
   const q = (document.getElementById('productSearch').value || '').toLowerCase();
   const grid = document.getElementById('productGrid');
@@ -764,6 +862,7 @@ function adjustStock(i) {
   renderDashboard();
 }
 
+/* --- CUSTOMERS --- */
 function renderCustomers() {
   const tbody = document.getElementById('customersTable');
   if (!state.customers.length) {
@@ -797,6 +896,7 @@ function saveCustomer() {
   renderDashboard();
 }
 
+/* --- BILLING --- */
 function renderBilling() {
   const list = document.getElementById('billProductList');
   list.innerHTML = state.products.map((p, i) => `
@@ -813,16 +913,12 @@ function addToCart(i) {
   else state.cart.push({ i, qty: 1 });
   renderCart();
 }
-function removeFromCart(i) {
-  state.cart.splice(i, 1);
-  renderCart();
-}
 function renderCart() {
   const items = document.getElementById('cartItems');
   if (!state.cart.length) {
     items.innerHTML = '<div class="cart-empty">Select a product to start the bill.</div>';
   } else {
-    items.innerHTML = state.cart.map((c, idx) => {
+    items.innerHTML = state.cart.map((c) => {
       const p = state.products[c.i];
       return `<div class="cart-line"><span class="name">${p.name} × ${c.qty}</span><span class="amt">${fmt(p.price * c.qty)}</span></div>`;
     }).join('');
@@ -865,6 +961,7 @@ function issueBill() {
   alert('Bill issued successfully!');
 }
 
+/* --- REPORTS --- */
 function renderReports() {
   const revenue = state.bills.reduce((s, b) => s + b.total, 0);
   const tax = state.bills.reduce((s, b) => s + (b.tax || 0), 0);
@@ -890,11 +987,11 @@ function renderReports() {
 
 function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 function exportData() {
-  const data = { shop: state.shop, products: state.products, customers: state.customers, bills: state.bills };
+  const data = { shop: state.shop, logo: state.logo, products: state.products, customers: state.customers, bills: state.bills };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'velora_backup.json';
+  a.download = 'velora_backup_' + state.shop.replace(/\s+/g, '_') + '.json';
   a.click();
 }
 function clearAll() {
@@ -903,11 +1000,13 @@ function clearAll() {
   localStorage.removeItem(shopKey('customers'));
   localStorage.removeItem(shopKey('bills'));
   localStorage.removeItem(shopKey('counter'));
-  state.products = []; state.customers = []; state.bills = []; state.billCounter = 1;
+  localStorage.removeItem(shopKey('logo'));
+  state.products = []; state.customers = []; state.bills = []; state.billCounter = 1; state.logo = null;
+  applyBranding();
   renderAll();
 }
 
-// Auto-login if session exists
+/* Auto-login */
 const saved = localStorage.getItem('velora_current');
 if (saved) {
   state.shop = saved;
