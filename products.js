@@ -1,6 +1,7 @@
 // ============================================
-// VELORA — Seed Product Catalogs
-// Each shop gets its own starter catalog.
+// VELORA — Seed Data
+// Catalogs, customers, and sample bills for
+// each shop. Auto-loaded on first register.
 // ============================================
 
 const SEED_CATALOGS = {
@@ -95,5 +96,92 @@ const SEED_CATALOGS = {
 
 };
 
-// Fallback if a shop name doesn't match either catalog above
+const SEED_CUSTOMERS = {
+  "Theobroma IceCreams": [
+    { name: "Farhad Ali",       phone: "7782936298", billed: 480,  due: 0 },
+    { name: "Theodore",         phone: "9999775679", billed: 1590, due: 1590 },
+    { name: "Nova",             phone: "2947985646", billed: 195,  due: 195 },
+    { name: "Zayd Khan",        phone: "9136778071", billed: 600,  due: 0 },
+    { name: "Ayah Siddiquie",   phone: "8454960253", billed: 660,  due: 0 },
+    { name: "Ayesha Siddiquie", phone: "8454960254", billed: 160,  due: 0 }
+  ],
+  "A1 Sweets": [
+    { name: "Rajesh Kumar",  phone: "9812345678", billed: 1470, due: 0 },
+    { name: "Priya Sharma",  phone: "9823456789", billed: 1250, due: 0 },
+    { name: "Amit Patel",    phone: "9834567890", billed: 1100, due: 0 },
+    { name: "Meera Joshi",   phone: "9845678901", billed: 880,  due: 880 },
+    { name: "Suresh Gupta",  phone: "9856789012", billed: 570,  due: 0 }
+  ]
+};
+
+const SEED_BILLS = {
+  "Theobroma IceCreams": [
+    { id: 1, customer: "Ayah Siddiquie",   date: "28 Aug 2026", status: "paid", items: [
+      { name: "Belgian Chocolate Truffle Ice Cream", price: 280, qty: 1 },
+      { name: "Brownie Sundae", price: 120, qty: 1 },
+      { name: "Chocolate Shake", price: 130, qty: 2 }
+    ]},
+    { id: 2, customer: "Ayesha Siddiquie", date: "28 Aug 2026", status: "paid", items: [
+      { name: "Chocolate Mousse Cup", price: 90, qty: 1 },
+      { name: "Butterscotch Cup (single serve)", price: 70, qty: 1 }
+    ]},
+    { id: 3, customer: "Zayd Khan",        date: "29 Aug 2026", status: "paid", items: [
+      { name: "Belgian Chocolate Truffle Ice Cream", price: 280, qty: 1 },
+      { name: "Oreo Shake", price: 140, qty: 1 },
+      { name: "Brownie Sundae", price: 120, qty: 1 },
+      { name: "Vanilla Bean Cup (single serve)", price: 60, qty: 1 }
+    ]},
+    { id: 4, customer: "Farhad Ali",       date: "29 Aug 2026", status: "paid", items: [
+      { name: "Belgian Chocolate Truffle Ice Cream", price: 280, qty: 1 },
+      { name: "Chocolate Shake", price: 130, qty: 1 },
+      { name: "Butterscotch Cup (single serve)", price: 70, qty: 1 }
+    ]},
+    { id: 5, customer: "Nova",             date: "30 Aug 2026", status: "due", items: [
+      { name: "Brownie Sundae", price: 120, qty: 1 },
+      { name: "Cookies & Cream Cup (single serve)", price: 75, qty: 1 }
+    ]},
+    { id: 6, customer: "Theodore",         date: "1 Sep 2026", status: "due", items: [
+      { name: "Belgian Chocolate Truffle Ice Cream", price: 280, qty: 1 },
+      { name: "Butterscotch Crunch Ice Cream", price: 250, qty: 2 },
+      { name: "Brownie Sundae", price: 120, qty: 4 },
+      { name: "Chocolate Shake", price: 130, qty: 2 },
+      { name: "Butterscotch Cup (single serve)", price: 70, qty: 1 }
+    ]},
+    { id: 7, customer: "Walk-in Customer", date: "1 Sep 2026", status: "paid", items: [
+      { name: "Chocolate Cup (single serve)", price: 70, qty: 3 },
+      { name: "Vanilla Bean Cup (single serve)", price: 60, qty: 2 }
+    ]}
+  ],
+  "A1 Sweets": [
+    { id: 1, customer: "Rajesh Kumar",      date: "28 Aug 2026", status: "paid", items: [
+      { name: "Kaju Katli", price: 950, qty: 1 },
+      { name: "Motichoor Ladoo", price: 520, qty: 1 }
+    ]},
+    { id: 2, customer: "Priya Sharma",      date: "28 Aug 2026", status: "paid", items: [
+      { name: "Motichoor Ladoo", price: 520, qty: 1 },
+      { name: "Besan Ladoo", price: 480, qty: 1 },
+      { name: "Gulab Jamun", price: 25, qty: 10 }
+    ]},
+    { id: 3, customer: "Walk-in Customer",  date: "29 Aug 2026", status: "paid", items: [
+      { name: "Mysore Pak", price: 560, qty: 1 },
+      { name: "Gulab Jamun", price: 25, qty: 8 }
+    ]},
+    { id: 4, customer: "Amit Patel",        date: "29 Aug 2026", status: "paid", items: [
+      { name: "Kaju Pista Roll", price: 1100, qty: 1 }
+    ]},
+    { id: 5, customer: "Meera Joshi",       date: "30 Aug 2026", status: "due", items: [
+      { name: "Badam Barfi", price: 880, qty: 1 }
+    ]},
+    { id: 6, customer: "Suresh Gupta",      date: "31 Aug 2026", status: "paid", items: [
+      { name: "Motichoor Ladoo", price: 520, qty: 1 },
+      { name: "Gulab Jamun", price: 25, qty: 2 }
+    ]},
+    { id: 7, customer: "Walk-in Customer",  date: "1 Sep 2026", status: "paid", items: [
+      { name: "Rasmalai", price: 45, qty: 5 },
+      { name: "Jalebi", price: 120, qty: 1 },
+      { name: "Rasgulla", price: 22, qty: 10 }
+    ]}
+  ]
+};
+
 const SEED_PRODUCTS = SEED_CATALOGS["Theobroma IceCreams"].slice();
