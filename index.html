@@ -205,7 +205,6 @@
   .modal-actions { display: flex; gap: 10px; margin-top: 22px; }
   .modal-actions .btn { flex: 1; }
 
-  /* SETTINGS LOGO UPLOAD */
   .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   @media (max-width: 900px) { .settings-grid { grid-template-columns: 1fr; } }
   .settings-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
@@ -248,7 +247,7 @@
     </div>
     <div class="field">
       <label>Password</label>
-      <input type="password" id="loginPass" placeholder="Any password">
+      <input type="password" id="loginPass" placeholder="Enter your password">
     </div>
     <div class="login-actions">
       <button class="btn btn-secondary" onclick="register()">Register</button>
@@ -524,7 +523,7 @@
                 <div class="logo-preview" id="logoPreview">V</div>
                 <div class="logo-preview-info">
                   <div class="name" id="logoPreviewName">No logo uploaded</div>
-                  <div class="hint">PNG, JPG, or SVG. Max ~500KB recommended.</div>
+                  <div class="hint">PNG, JPG, or SVG. Max ~2MB.</div>
                 </div>
               </div>
               <div class="settings-actions">
@@ -583,6 +582,7 @@
   </div>
 </div>
 
+<script src="products.js"></script>
 <script>
 let state = { shop: null, logo: null, products: [], customers: [], bills: [], cart: [], billCounter: 1 };
 
@@ -597,12 +597,7 @@ function persist() {
   else localStorage.removeItem(shopKey('logo'));
 }
 function loadShopData() {
-  state.products = JSON.parse(localStorage.getItem(shopKey('products'))) || [
-    { name: 'Belgian Chocolate Truffle Ice Cream', category: 'Ice Cream', price: 280, stock: 24, threshold: 5 },
-    { name: 'Brownie Sundae', category: 'Sundaes', price: 120, stock: 30, threshold: 5 },
-    { name: 'Brownie with Ice Cream', category: 'Desserts', price: 140, stock: 29, threshold: 5 },
-    { name: 'Butterscotch Crunch Ice Cream', category: 'Ice Cream', price: 250, stock: 497, threshold: 5 }
-  ];
+  state.products = JSON.parse(localStorage.getItem(shopKey('products'))) || (typeof SEED_PRODUCTS !== 'undefined' ? SEED_PRODUCTS.slice() : []);
   state.customers = JSON.parse(localStorage.getItem(shopKey('customers'))) || [
     { name: 'Farhad Ali', phone: '7782936298', billed: 480, due: 0 },
     { name: 'Theodore', phone: '9999775679', billed: 1590, due: 1590 },
@@ -620,8 +615,9 @@ function register() {
   const pass = document.getElementById('loginPass').value.trim();
   if (!shop || !pass) return alert('Enter a shop name and password.');
   let shops = JSON.parse(localStorage.getItem('velora_shops')) || [];
-  if (shops.includes(shop)) return alert('Shop already exists. Sign in.');
-  shops.push(shop);
+  const exists = shops.find(s => (typeof s === 'string' ? s === shop : s.name === shop));
+  if (exists) return alert('Shop already exists. Please sign in.');
+  shops.push({ name: shop, pass: btoa(pass) });
   localStorage.setItem('velora_shops', JSON.stringify(shops));
   state.shop = shop;
   localStorage.setItem('velora_current', shop);
@@ -632,7 +628,9 @@ function login() {
   const pass = document.getElementById('loginPass').value.trim();
   if (!shop || !pass) return alert('Enter a shop name and password.');
   let shops = JSON.parse(localStorage.getItem('velora_shops')) || [];
-  if (!shops.includes(shop)) return alert('Shop not found. Register first.');
+  const found = shops.find(s => (typeof s === 'string' ? s === shop : s.name === shop));
+  if (!found) return alert('Shop not found. Please register first.');
+  if (typeof found === 'object' && found.pass !== btoa(pass)) return alert('Incorrect password. Try again.');
   state.shop = shop;
   localStorage.setItem('velora_current', shop);
   enterApp();
@@ -686,7 +684,6 @@ function navigate(page) {
 function fmt(n) { return '₹' + Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 function renderAll() { renderDashboard(); renderProducts(); renderCustomers(); renderBilling(); renderReports(); renderSettings(); }
 
-/* --- SETTINGS / LOGO --- */
 function renderSettings() {
   const preview = document.getElementById('logoPreview');
   const nameEl = document.getElementById('logoPreviewName');
@@ -722,7 +719,6 @@ function removeLogo() {
   renderSettings();
 }
 
-/* --- DASHBOARD --- */
 function renderDashboard() {
   const revenue = state.bills.reduce((s, b) => s + b.total, 0);
   const dues = state.customers.reduce((s, c) => s + c.due, 0);
@@ -769,7 +765,6 @@ function renderDashboard() {
   }
 }
 
-/* --- PRODUCTS --- */
 function renderProducts() {
   const q = (document.getElementById('productSearch').value || '').toLowerCase();
   const grid = document.getElementById('productGrid');
@@ -786,7 +781,7 @@ function renderProducts() {
         <div class="product-card-top">
           <div>
             <h3>${p.name}</h3>
-            <div class="product-cat">${p.category || 'Uncategorized'}</div>
+            <div class="product-cat">${p.category || 'Uncategorized'}${p.sku ? ' · ' + p.sku : ''}</div>
           </div>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: baseline;">
@@ -794,7 +789,7 @@ function renderProducts() {
         </div>
         <div class="product-stock">
           <span class="product-stock-label">On shelf</span>
-          <span class="product-stock-value ${low ? 'low' : ''}">${p.stock} units</span>
+          <span class="product-stock-value ${low ? 'low' : ''}">${p.stock}${p.unit ? ' · ' + p.unit : ' units'}</span>
         </div>
         <div class="product-actions">
           <button class="icon-btn" onclick="editProduct(${i})">Edit</button>
@@ -837,7 +832,8 @@ function saveProduct() {
     threshold: parseInt(document.getElementById('pThreshold').value) || 5
   };
   if (!p.name || isNaN(p.price) || isNaN(p.stock)) return alert('Fill in name, price, and stock.');
-  if (i >= 0) state.products[i] = p; else state.products.push(p);
+  if (i >= 0) state.products[i] = Object.assign({}, state.products[i], p);
+  else state.products.push(p);
   persist();
   closeModal('productModal');
   renderProducts();
@@ -862,7 +858,6 @@ function adjustStock(i) {
   renderDashboard();
 }
 
-/* --- CUSTOMERS --- */
 function renderCustomers() {
   const tbody = document.getElementById('customersTable');
   if (!state.customers.length) {
@@ -896,7 +891,6 @@ function saveCustomer() {
   renderDashboard();
 }
 
-/* --- BILLING --- */
 function renderBilling() {
   const list = document.getElementById('billProductList');
   list.innerHTML = state.products.map((p, i) => `
@@ -961,7 +955,6 @@ function issueBill() {
   alert('Bill issued successfully!');
 }
 
-/* --- REPORTS --- */
 function renderReports() {
   const revenue = state.bills.reduce((s, b) => s + b.total, 0);
   const tax = state.bills.reduce((s, b) => s + (b.tax || 0), 0);
@@ -1006,7 +999,6 @@ function clearAll() {
   renderAll();
 }
 
-/* Auto-login */
 const saved = localStorage.getItem('velora_current');
 if (saved) {
   state.shop = saved;
