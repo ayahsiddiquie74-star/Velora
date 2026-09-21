@@ -159,8 +159,8 @@
   .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
   .product-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; transition: all 0.2s; }
   .product-card:hover { border-color: var(--primary-border); transform: translateY(-2px); box-shadow: 0 12px 30px hsl(225 35% 3% / 0.3); }
-  .product-card-top { display: flex; justify-content: space-between; align2-items: flex-start; gap: 12px; margin-bottom: 14px;  }
-  .product-card h3 { font0-family: var(--font-displayl); font-size: 15px; font-weight: 600;7 letter-spacing: -0.-01em; line-height: 1.3; }
+  .product-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+  .product-card h3 { font-family: var(--font-display); font-size: 15px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; }
   .product-cat { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
   .product-price { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--primary); letter-spacing: -0.02em; }
   .product-stock { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
@@ -274,7 +274,7 @@
           <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
         <button class="nav-item" data-page="products" onclick="navigate('products')">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
           Products &amp; stock
         </button>
         <button class="nav-item" data-page="customers" onclick="navigate('customers')">
@@ -587,34 +587,44 @@ function persist() {
   else localStorage.removeItem(shopKey('logo'));
 }
 
+function findSeedKey(shopName) {
+  if (!shopName) return null;
+  const norm = shopName.toLowerCase().trim();
+  if (typeof SEED_CATALOGS !== 'undefined' && SEED_CATALOGS[shopName]) return shopName;
+  if (typeof SEED_CATALOGS !== 'undefined') {
+    for (const key in SEED_CATALOGS) {
+      if (key.toLowerCase().trim() === norm) return key;
+    }
+    for (const key in SEED_CATALOGS) {
+      const k = key.toLowerCase();
+      if (norm.includes('theobroma') && k.includes('theobroma')) return key;
+      if ((norm.includes('a1') || norm.includes('a 1')) && (k.includes('a1') || k.includes('a 1'))) return key;
+    }
+  }
+  return null;
+}
+
 function loadShopData() {
+  const seedKey = findSeedKey(state.shop);
+
   let seedProducts = [];
-  if (typeof SEED_CATALOGS !== 'undefined' && SEED_CATALOGS[state.shop]) {
-    seedProducts = SEED_CATALOGS[state.shop].slice();
+  if (typeof SEED_CATALOGS !== 'undefined' && seedKey && SEED_CATALOGS[seedKey]) {
+    seedProducts = SEED_CATALOGS[seedKey].slice();
   } else if (typeof SEED_PRODUCTS !== 'undefined') {
     seedProducts = SEED_PRODUCTS.slice();
   }
 
   let seedCustomers = [];
-  if (typeof SEED_CUSTOMERS !== 'undefined' && SEED_CUSTOMERS[state.shop]) {
-    seedCustomers = SEED_CUSTOMERS[state.shop].slice();
+  if (typeof SEED_CUSTOMERS !== 'undefined' && seedKey && SEED_CUSTOMERS[seedKey]) {
+    seedCustomers = SEED_CUSTOMERS[seedKey].slice();
   }
 
   let seedBills = [];
-  if (typeof SEED_BILLS !== 'undefined' && SEED_BILLS[state.shop]) {
-    seedBills = SEED_BILLS[state.shop].map(function(b) {
+  if (typeof SEED_BILLS !== 'undefined' && seedKey && SEED_BILLS[seedKey]) {
+    seedBills = SEED_BILLS[seedKey].map(function(b) {
       const items = b.items.map(function(it) { return { name: it.name, price: it.price, qty: it.qty }; });
       const subtotal = items.reduce(function(s, it) { return s + it.price * it.qty; }, 0);
-      return {
-        id: b.id,
-        customer: b.customer,
-        date: b.date,
-        items: items,
-        subtotal: subtotal,
-        tax: 0,
-        total: subtotal,
-        status: b.status
-      };
+      return { id: b.id, customer: b.customer, date: b.date, items: items, subtotal: subtotal, tax: 0, total: subtotal, status: b.status };
     });
   }
 
@@ -1018,8 +1028,10 @@ function clearAll() {
   localStorage.removeItem(shopKey('counter'));
   localStorage.removeItem(shopKey('logo'));
   state.products = []; state.customers = []; state.bills = []; state.billCounter = 1; state.logo = null;
+  loadShopData();
   applyBranding();
   renderAll();
+  renderSettings();
 }
 
 const saved = localStorage.getItem('velora_current');
